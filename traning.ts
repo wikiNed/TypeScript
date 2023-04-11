@@ -43,3 +43,12 @@ const person2:PersonType1 = {
  * keyof 索引类型查询操作符 获取索引类型的属性名，构成联合类型。
  */
 type PersonKey= keyof PersonInterface // "name" | "age"
+
+/**
+ * 泛型
+ */
+function identity<T>(value: T) : T {
+    return value
+}
+
+console.log(identity<Number>(1))
