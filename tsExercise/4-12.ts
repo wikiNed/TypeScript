@@ -93,3 +93,26 @@ type Result = MyAwaited<ExampleType> // string
 type Concat<T extends readonly any[] ,U extends readonly any[]> = [...T,...U]
 
 type Result1 = Concat<[1], [2]>
+
+/**
+ * 9.实现内置的Exclude <T, U>类型，但不能直接使用它本身。
+ * 从联合类型T中排除U的类型成员，来构造一个新的类型。
+ */
+type MyExclude<T, U> = T extends U ? never : T;
+type Result2 = MyExclude<'a' | 'b' | 'c', 'a'> // 'b' | 'c'
+
+/**
+ * 10.在类型系统里实现 JavaScript 的 Array.includes 方法，
+ * 这个类型接受两个参数，返回的类型要么是 true 要么是 false。
+ */
+type Equals<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y
+        ? 1
+        : 2
+    ? true
+    : false;
+type MyIncludes<T extends readonly any[], U> = T extends [infer X,...infer Rest]
+    ? Equals<X, U> extends true
+        ?true
+        :MyIncludes<Rest, U>
+    :false
+type isPillarMen = MyIncludes<['Kars', 'Esidisi', 'Wamuu', 'Santana'], 'Dio'>
